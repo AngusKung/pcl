@@ -284,13 +284,10 @@ namespace pcl
        * color(it's random). Points that are unlabeled will be black
        * \note This will expand the label_colors_ vector so that it can accomodate all labels
        */
-
-      PCL_DEPRECATED ("SupervoxelClustering::getColoredVoxelCloud is deprecated. Use the getLabeledVoxelCloud function instead. examples/segmentation/example_supervoxels.cpp shows how to use this to display and save with colorized labels.")
+//????????????check here?????????
+      //PCL_DEPRECATED ("SupervoxelClustering::getColoredVoxelCloud is deprecated. Use the getLabeledVoxelCloud function instead. examples/segmentation/example_supervoxels.cpp shows how to use this to display and save with colorized labels.")
       pcl::PointCloud<pcl::PointXYZRGBA>::Ptr
-      getColoredVoxelCloud () const
-      {
-        return boost::make_shared<pcl::PointCloud<PointXYZRGBA> > ();
-      }
+      getColoredVoxelCloud () const;
 
       /** \brief Returns labeled voxelized cloud
        * Points that belong to the same supervoxel have the same label.

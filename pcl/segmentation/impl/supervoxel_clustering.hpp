@@ -551,7 +551,28 @@ pcl::SupervoxelClustering<PointT>::getVoxelCentroidCloud () const
   copyPointCloud (*voxel_centroid_cloud_, *centroid_copy);
   return centroid_copy;
 }
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+//----------------------------Added------------------------------
+template <typename PointT> pcl::PointCloud<pcl::PointXYZRGBA>::Ptr
+pcl::SupervoxelClustering<PointT>::getColoredVoxelCloud () const
+{
+  pcl::PointCloud<pcl::PointXYZRGBA>::Ptr colored_cloud = boost::make_shared< pcl::PointCloud<pcl::PointXYZRGBA> > ();
+  for (typename HelperListT::const_iterator sv_itr = supervoxel_helpers_.cbegin (); sv_itr != supervoxel_helpers_.cend (); ++sv_itr)
+  {
+    typename PointCloudT::Ptr voxels;
+    sv_itr->getVoxels (voxels);
+    pcl::PointCloud<pcl::PointXYZRGBA> rgb_copy;
+    copyPointCloud (*voxels, rgb_copy);
+    
+    pcl::PointCloud<pcl::PointXYZRGBA>::iterator rgb_copy_itr = rgb_copy.begin ();
+    for ( ; rgb_copy_itr != rgb_copy.end (); ++rgb_copy_itr) 
+      rgb_copy_itr->rgba = label_colors_ [sv_itr->getLabel ()];
+    
+    *colored_cloud += rgb_copy;
+  }
+  
+  return colored_cloud;
+}
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointT> pcl::PointCloud<pcl::PointXYZL>::Ptr
 pcl::SupervoxelClustering<PointT>::getLabeledVoxelCloud () const
